@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using BNG;
 namespace EVR
 {
 
@@ -17,13 +18,63 @@ namespace EVR
 
         public GameObject PlayerSimulator;
         private Transform spawn;
+        public bool usesDefaultPlayer = true;
+        public bool usesInteraction = true;
 
         public void Start()
         {
             spawn = GameObject.Find("spawn").transform;
             Instantiate(PlayerSimulator, spawn);
+            // Симуляция стандартной логики загрузки уровня
+            Transform LeftHandRootOBJ = GameObject.Find("LeftHandRootOBJ").transform;
+            Transform RightHandRootOBJ = GameObject.Find("RightHandRootOBJ").transform;
+            Transform PlayerRoot = GameObject.Find("PlayerRoot").transform;
+            Transform HeadRoot = GameObject.Find("HeadRoot").transform;
+            Transform HMD = GameObject.Find("CenterEyeAnchor").transform;
+            if (usesDefaultPlayer == false && HMD != null)
+            {
+                GameObject myHMD = GameObject.Find("MyHMD");
+                if (myHMD != null)
+                {
+                    Transform parent = myHMD.transform.parent;
+                    int index = myHMD.transform.GetSiblingIndex();
+
+                    HMD.SetParent(parent, false);
+                    HMD.SetSiblingIndex(index);
+
+                    myHMD.transform.SetParent(HMD, false);
+                    myHMD.transform.localPosition = Vector3.zero;
+                    myHMD.transform.localRotation = Quaternion.identity;
+                }
+            }
+
+            if (usesDefaultPlayer == true)
+            {
+                AttachTaggedObjectTo("MyPlayer", PlayerRoot);
+                AttachTaggedObjectTo("MyHead", HeadRoot);
+            }
+            AttachTaggedObjectTo("MyLeftHand", LeftHandRootOBJ);
+            AttachTaggedObjectTo("MyRightHand", RightHandRootOBJ);
+
+            GameObject.Find("RightController").SetActive(usesInteraction);
+            GameObject.Find("LeftController").SetActive(usesInteraction);
+
+            // Конец симуляции
         }
-        public bool JoyConModeEnabled = false;
+        private void AttachTaggedObjectTo(string tag, Transform targetRoot)
+        {
+            GameObject found = GameObject.Find(tag);
+            if (found != null && targetRoot != null)
+            {
+                found.transform.SetParent(targetRoot, false);
+                found.transform.localPosition = Vector3.zero;
+                found.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                Debug.Log(tag + " - не найдено");
+            }
+        }
         public GameObject Player
         {
             get
@@ -140,57 +191,57 @@ namespace EVR
         {
             SceneManager.LoadScene(scene);
         }
-        public void SetNewHandL(GameObject handObject = null)
-        {
-            Debug.Log("LeftHandChanged");
-        }
-        public void SetNewHead(GameObject head = null)
-        {
-            Debug.Log("HeadChanged");
-        }
-        public void SetStandartHead()
-        {
-            Debug.Log("HeadWasSetToStandart");
-        }
+        // public void SetNewHandL(GameObject handObject = null)
+        // {
+        //     Debug.Log("LeftHandChanged");
+        // }
+        // public void SetNewHead(GameObject head = null)
+        // {
+        //     Debug.Log("HeadChanged");
+        // }
+        // public void SetStandartHead()
+        // {
+        //     Debug.Log("HeadWasSetToStandart");
+        // }
 
-        public void SetStadnartHandL()
-        {
-            Debug.Log("LeftChangedWasSetToStandart");
-        }
-        public void SetStadnartHandR()
-        {
-            Debug.Log("RightChangedWasSetToStandart");
-        }
+        // public void SetStadnartHandL()
+        // {
+        //     Debug.Log("LeftChangedWasSetToStandart");
+        // }
+        // public void SetStadnartHandR()
+        // {
+        //     Debug.Log("RightChangedWasSetToStandart");
+        // }
 
-        public void SetNewHandR(GameObject handObject = null)
-        {
-            Debug.Log("RightHandChanged");
-        }
-        public void BlockInput()
-        {
-            Debug.Log("StandartInputWasTurnedOFF");
-        }
+        // public void SetNewHandR(GameObject handObject = null)
+        // {
+        //     Debug.Log("RightHandChanged");
+        // }
+        // public void BlockInput()
+        // {
+        //     Debug.Log("StandartInputWasTurnedOFF");
+        // }
         public void BlockStick()
         {
-            GameObject.Find("PlayerController").GetComponent<PayerController>().BlockedStick = true;
+            GameObject.Find("PlayerController").GetComponent<SmoothLocomotion>().AllowInput = false;
         }
-        public void UnblockInput()
-        {
-            Debug.Log("StandartInputWasTurnedON");
-        }
+        // public void UnblockInput()
+        // {
+        //     Debug.Log("StandartInputWasTurnedON");
+        // }
         public void UnblockStick()
         {
-            Debug.Log("StandartMovementWasTurnedON");
+            GameObject.Find("PlayerController").GetComponent<SmoothLocomotion>().AllowInput = true;
         }
-        public void HeadModeOn()
-        {
-            Debug.Log("HeadRotationModeOn");
-        }
-        public void HeadModeOff()
-        {
-            Debug.Log("HeadRotationModeOff");
-        }
-        public void EnableKeyboard(TMP_InputField AttachedInputField)
+        // public void HeadModeOn()
+        // {
+        //     Debug.Log("HeadRotationModeOn");
+        // }
+        // public void HeadModeOff()
+        // {
+        //     Debug.Log("HeadRotationModeOff");
+        // }
+        public void EnableKeyboard(TMP_InputField AttachedInputField, Transform obj)
         {
             Debug.Log("Keyboard is enabled");
         }
