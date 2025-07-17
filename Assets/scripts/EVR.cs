@@ -20,6 +20,9 @@ namespace EVR
         private Transform spawn;
         public bool usesDefaultPlayer = true;
         public bool usesInteraction = true;
+        public bool UseTouchMode;
+        public bool Use6DOF;
+        public bool UseHandTracking;
 
         public void Awake()
         {
