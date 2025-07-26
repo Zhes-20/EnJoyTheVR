@@ -31,7 +31,7 @@ namespace EVR
             GameObject Player = Instantiate(PlayerSimulator);
             Player.transform.position = spawn.position;
             // Player.transform.SetParent(null);
-            // DontDestroyOnLoad(Player);
+            DontDestroyOnLoad(Player);
             // Симуляция стандартной логики загрузки уровня
             Transform LeftHandRootOBJ = GameObject.Find("LeftHandRootOBJ").transform;
             Transform RightHandRootOBJ = GameObject.Find("RightHandRootOBJ").transform;
