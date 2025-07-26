@@ -26,7 +26,7 @@ namespace EVR
 
         public void Awake()
         {
-            // DontDestroyOnLoad(this);
+            DontDestroyOnLoad(this);
             spawn = GameObject.Find("spawn").transform;
             GameObject Player = Instantiate(PlayerSimulator);
             Player.transform.position = spawn.position;
