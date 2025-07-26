@@ -23,7 +23,8 @@ public class CustomLuaLoader : MonoBehaviour
 
     void Start()
     {
-        string scriptPath = Path.Combine(Application.persistentDataPath, "CustomModes", customModeDirectory, "Resources", luaScriptName);
+        // string scriptPath = Path.Combine(Application.persistentDataPath, "CustomModes", customModeDirectory, "Resources", luaScriptName);
+        string scriptPath = Path.Combine(Application.dataPath, "LuaScripts", customModeDirectory, luaScriptName);
         if (Application.isEditor)
         {
             Debug.Log(scriptPath);
