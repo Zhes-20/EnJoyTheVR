@@ -324,12 +324,12 @@ EVR:BlockStick()
 EVR:UnblockStick()
 ```
 
-#### EVR:EnableKeyboard(TMP_InputField)
+#### EVR:EnableKeyboard(TMP_InputField, Transform = null)
 Включает клавиатуру, указывается InputField, для которого требуется ввод.
 
 **Пример:**
 ```lua
-EVR:EnableKeyboard(InputField)
+EVR:EnableKeyboard(InputField, spawnplace:GetComponent("Transform")
 ```
 
 #### EVR:DisableKeyboard()
