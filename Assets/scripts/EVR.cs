@@ -62,8 +62,8 @@ namespace EVR
             }
             AttachTaggedObjectTo("MyLeftHand", LeftHandRootOBJ);
             AttachTaggedObjectTo("MyRightHand", RightHandRootOBJ);
-            GameObject.Find("LeftControllerETVR").SetActive(usesInteraction);
-            GameObject.Find("RightControllerETVR").SetActive(usesInteraction);
+            GameObject.Find("LeftController").SetActive(usesInteraction);
+            GameObject.Find("RightController").SetActive(usesInteraction);
             // Конец симуляции
         }
         
