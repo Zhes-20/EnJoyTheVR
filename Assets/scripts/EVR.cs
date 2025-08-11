@@ -16,7 +16,8 @@ namespace EVR
     public class API : MonoBehaviour
     {
 
-        public GameObject PlayerSimulator;
+        // public GameObject PlayerSimulator;
+        public GameObject PlayerSim;
         private Transform spawn;
         public bool usesDefaultPlayer = true;
         public bool usesInteraction = true;
@@ -28,10 +29,9 @@ namespace EVR
         {
             DontDestroyOnLoad(this);
             spawn = GameObject.Find("spawn").transform;
-            GameObject Player = Instantiate(PlayerSimulator);
-            Player.transform.position = spawn.position;
+            PlayerSim.transform.position = spawn.position;
             // Player.transform.SetParent(null);
-            DontDestroyOnLoad(Player);
+            DontDestroyOnLoad(PlayerSim);
             // Симуляция стандартной логики загрузки уровня
             Transform LeftHandRootOBJ = GameObject.Find("LeftHandRootOBJ").transform;
             Transform RightHandRootOBJ = GameObject.Find("RightHandRootOBJ").transform;
