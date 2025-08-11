@@ -30,6 +30,7 @@ namespace EVR
             DontDestroyOnLoad(this);
             spawn = GameObject.Find("spawn").transform;
             PlayerSim.transform.position = spawn.position;
+            PlayerSim.transform.rotation = spawn.rotation;
             // Player.transform.SetParent(null);
             DontDestroyOnLoad(PlayerSim);
             // Симуляция стандартной логики загрузки уровня
