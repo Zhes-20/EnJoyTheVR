@@ -150,6 +150,37 @@ namespace EVR
         {
             Debug.Log("DISABLED LOADING SCREEN");
         }
+        public void Invoke(GameObject target, string luaFunctionName, float delay)
+        {
+            if (target == null)
+            {
+                Debug.LogError("EVR.Invoke: target (GameObject) не указан!");
+                return;
+            }
+
+            CustomLuaLoader loader = target.GetComponent<CustomLuaLoader>();
+            if (loader == null)
+            {
+                Debug.LogError($"EVR.Invoke: объект '{target.name}' не содержит CustomLuaLoader!");
+                return;
+            }
+
+            StartCoroutine(InvokeLuaFunctionCoroutine(loader, luaFunctionName, delay));
+        }
+
+        private System.Collections.IEnumerator InvokeLuaFunctionCoroutine(CustomLuaLoader loader, string luaFunctionName, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            try
+            {
+                loader.InvokeLuaFunction(luaFunctionName);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"EVR.Invoke: ошибка при вызове Lua функции '{luaFunctionName}' из '{loader.name}': {ex.Message}");
+            }
+        }
 
         public object Load(string key, string type)
         {

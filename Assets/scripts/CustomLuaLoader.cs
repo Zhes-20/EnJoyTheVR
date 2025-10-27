@@ -14,6 +14,7 @@ public class Injection
 public class CustomLuaLoader : MonoBehaviour
 {
     public bool NeedSubscribeToOnExit = false;
+    public bool NeedSubscribeToOnMenuStateChanged = false;
     public string customModeDirectory;
     public string luaScriptName;
     public List<Injection> injections;
