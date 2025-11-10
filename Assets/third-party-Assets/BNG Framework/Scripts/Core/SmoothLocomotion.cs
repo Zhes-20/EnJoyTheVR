@@ -100,6 +100,8 @@ namespace BNG {
         [Tooltip("How fast the player can move in the air if AirControl = true. Example : 0.5 = Player will move at half the speed of MovementSpeed")]
         public float AirControlSpeed = 1f;
 
+        private bool APIJump = false;
+
         BNGPlayerController playerController;
         CharacterController characterController;
         Rigidbody playerRigid;
@@ -226,15 +228,36 @@ namespace BNG {
         float lastJumpTime;
         float lastMoveTime;
 
-        public virtual void DoRigidBodyJump() {
+        public virtual void DoRigidBodyJump()
+        {
 
-            if(Time.time - lastJumpTime > 0.2f) {               
+            if (Time.time - lastJumpTime > 0.2f)
+            {
 
                 playerRigid.AddForce(new Vector3(playerRigid.velocity.x, JumpForce, playerRigid.velocity.z), ForceMode.VelocityChange);
 
                 lastJumpTime = Time.time;
             }
         }
+        public void DoJump()
+        {
+            // movementY += JumpForce;
+            if (IsGrounded())
+            {
+                Debug.Log("JUUUUUUMP");
+                APIJump = true;
+                if (ControllerType == PlayerControllerType.CharacterController)
+                {
+                    movementY += JumpForce;
+                    _verticalSpeed = JumpForce;
+                }
+                else if (ControllerType == PlayerControllerType.Rigidbody)
+                {
+                    DoRigidBodyJump();
+                }
+            }
+        }
+
 
         public virtual Vector2 GetMovementAxis() {
 
@@ -293,8 +316,9 @@ namespace BNG {
             if (playerController != null && playerController.IsGrounded()) {
                 // Reset jump speed if grounded
                 _verticalSpeed = 0;
-                if (CheckJump()) {
+                if (CheckJump() || APIJump == true) {
                     _verticalSpeed = JumpForce;
+                    APIJump = false;
                 }
             }
 
@@ -607,4 +631,3 @@ namespace BNG {
         Rigidbody
     }
 }
-

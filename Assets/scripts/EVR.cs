@@ -24,6 +24,7 @@ namespace EVR
         public bool UseTouchMode;
         public bool Use6DOF;
         public bool UseHandTracking;
+        private SmoothLocomotion SL;
 
         public void Awake()
         {
@@ -65,6 +66,7 @@ namespace EVR
             AttachTaggedObjectTo("MyRightHand", RightHandRootOBJ);
             GameObject.Find("LeftController").SetActive(usesInteraction);
             GameObject.Find("RightController").SetActive(usesInteraction);
+            SL = GameObject.Find("PlayerController").GetComponent<SmoothLocomotion>();
             // Конец симуляции
         }
         
@@ -226,6 +228,10 @@ namespace EVR
         {
             Time.timeScale = scale;
         }
+        public void DoJump()
+        {
+            SL.DoJump();
+        }
 
         public void CloseApp()
         {
@@ -274,10 +280,16 @@ namespace EVR
         // {
         //     Debug.Log("StandartInputWasTurnedON");
         // }
-        public void SetPlayerCollider(float Height = 1.65f, float Radius = 0.1f)
+        public void SetPlayerCollider(float Height = 1.5f, float Radius = 0.1f)
         {
             // capsuleCollider.height = Height;
             // capsuleCollider.radius = Radius;
+            Player.GetComponent<CharacterController>().height = Height;
+            Player.GetComponent<CharacterController>().radius = Radius;
+            // Player.GetComponent<BNGPlayerController>().ElevateCameraHeight = Height;
+        }
+        public void SetHeight(float Height = 1.65f)
+        {
             Player.GetComponent<BNGPlayerController>().ElevateCameraHeight = Height;
         }
         public void UnblockStick()
