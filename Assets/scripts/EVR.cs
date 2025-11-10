@@ -274,6 +274,12 @@ namespace EVR
         // {
         //     Debug.Log("StandartInputWasTurnedON");
         // }
+        public void SetPlayerCollider(float Height = 1.65f, float Radius = 0.1f)
+        {
+            // capsuleCollider.height = Height;
+            // capsuleCollider.radius = Radius;
+            Player.GetComponent<BNGPlayerController>().ElevateCameraHeight = Height;
+        }
         public void UnblockStick()
         {
             GameObject.Find("PlayerController").GetComponent<SmoothLocomotion>().AllowInput = true;
